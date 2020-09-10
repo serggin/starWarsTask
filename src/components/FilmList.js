@@ -28,13 +28,14 @@ const useStyles = makeStyles(theme => ({
 
 const ListItemButton = props => <ListItem button {...props} />;
 
-
-const FilmList = ({titles}) => {
-  const [keySelected, SetKeySelected] = useState(undefined);
+const FilmList = ({titles, selectFilm}) => {
+  const [keySelected, setKeySelected] = useState(undefined);
   const classes = useStyles();
-  //console.log('FilmList titles=', titles);
   const keys = Object.keys(titles);
-  const onSelect = (key) => { SetKeySelected(key)}
+  const onSelect = (key) => {
+    setKeySelected(key);
+    selectFilm(key);
+  };
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>
@@ -62,7 +63,8 @@ const FilmList = ({titles}) => {
 }
 // {props.titles.keys().length
 FilmList.propTypes = {
-  titles: PropTypes.object.isRequired
+  titles: PropTypes.object.isRequired,
+  selectFilm: PropTypes.func.isRequired,
 };
 
 export default FilmList;

@@ -22,20 +22,20 @@ const fetchFilms = (dispatch) => {
   );
 }
 
-const FilmListWrapper = ({filmTitles, fetchFilms}) => {
+const FilmListWrapper = ({filmTitles, fetchFilms, setCurrentFilm}) => {
   useEffect(() => {
     fetchFilms();
   }, []);
   console.log('FilmListWrapper filmTitles=', filmTitles);
   return (
-    <FilmList titles={filmTitles}/>
+    <FilmList titles={filmTitles} selectFilm={setCurrentFilm}/>
   );
 };
 
 const mapStateToProps = (state) => ({filmTitles: state.films.filmTitles});
 const mapDispatchToProps = (dispatch) => ({
   fetchFilms: () => dispatch(fetchFilms),
-
+  setCurrentFilm: dispatch(ActionCreators.setCurrentFilm),
 });
 
 const FilmListContainer = connect(mapStateToProps, mapDispatchToProps)(FilmListWrapper);

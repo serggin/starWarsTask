@@ -14,7 +14,7 @@ const useStyles = makeStyles(theme => ({
 
 const FilmDetail = (props) => {
   const classes = useStyles();
-
+  console.log('FilmDetail props=', props);
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>

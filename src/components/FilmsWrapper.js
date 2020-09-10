@@ -2,7 +2,7 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 
 import FilmListContainer from '../containers/FilmListContainer';
-import FilmDetail from './FilmDetail';
+import FilmDetailContainer from '../containers/FilmDetailContainer';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -17,7 +17,7 @@ const FilmsWrapper = () => {
   return (
     <div className={classes.root}>
       <FilmListContainer />
-      <FilmDetail />
+      <FilmDetailContainer />
     </div>
   );
 }

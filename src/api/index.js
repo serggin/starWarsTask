@@ -27,7 +27,15 @@ export const fetchFilms = () => {
   return fetchHelper(url);
 }
 
+const delay= 2000;
+
 export const fetchFilm = (id) => {
   const url = baseURL + `${id}/`;
-  return fetchHelper(url);
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      fetchHelper(url)
+        .then(response => {resolve(response)})
+        .catch(error => reject(error));
+    }, delay);
+  });
 }
