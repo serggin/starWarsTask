@@ -7,10 +7,13 @@ import FilmDetail from '../components/FilmDetail';
 
 const fetchFilm = (dispatch, getState) => {
   const films = getState().films;
-  const filmId = films.filmId;
+  let filmId = films.filmId
   const filmDetails = films.filmDetails;
+  console.log('fetchFilm filmId, filmDetails=', filmId, filmDetails);
   if (filmId) {
-    if (filmDetails[filmId] && filmDetails[filmId].loading) {
+    filmId = filmId.toString();
+    if (filmDetails[filmId] && (filmDetails[filmId].loading || filmDetails[filmId].opening_crawl)) { // не делаем повторную загрузку
+      console.log('skip loading ', filmId);
       return;
     }
     ActionCreators.fetchFilmDetailsStarted(dispatch)(filmId);
