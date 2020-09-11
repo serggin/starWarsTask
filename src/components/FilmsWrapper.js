@@ -8,7 +8,16 @@ const useStyles = makeStyles(theme => ({
   root: {
     display: "flex",
     flexDirection: "row",
+    width: "80%",
   },
+  list: {
+    flex: 3,
+    paddingRight: 5,
+  },
+  detail: {
+    flex: 7,
+    paddingLeft: 5,
+  }
 }));
 
 const FilmsWrapper = () => {
@@ -16,8 +25,12 @@ const FilmsWrapper = () => {
 
   return (
     <div className={classes.root}>
-      <FilmListContainer />
-      <FilmDetailContainer />
+      <div className={classes.list}>
+        <FilmListContainer />
+      </div>
+      <div className={classes.detail}>
+        <FilmDetailContainer />
+      </div>
     </div>
   );
 }

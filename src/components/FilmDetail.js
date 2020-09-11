@@ -8,13 +8,19 @@ const useStyles = makeStyles(theme => ({
   root: {
     display: "flex",
     flexDirection: "column",
+    height: "100%",
   },
   paper: {
-
+    height: "100%",
   },
   logo: {
-
+    width: "100%",
+    height: 100,
   },
+  content: {
+    paddingLeft: 20,
+    paddingRight: 20,
+  }
 }));
 
 const FilmDetail = ({filmId, loading, title, opening_crawl}) => {
@@ -23,17 +29,18 @@ const FilmDetail = ({filmId, loading, title, opening_crawl}) => {
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>
-        <Typography>FilmDetail</Typography>
+        <img className={classes.logo} src={logo} />
         {filmId &&
           <>
-            <img className={classes.logo} src={logo} />
-            {loading && <Typography>Loading ...</Typography>}
-            {!loading &&
-              <>
-                <Typography>{title}</Typography>
-                <Typography>{opening_crawl}</Typography>
-              </>
-            }
+            <div className={classes.content}>
+              {loading && <Typography variant="body1">Loading ...</Typography>}
+              {!loading &&
+                <>
+                  <Typography variant="h4">{title}</Typography>
+                  <Typography variant="body1">{opening_crawl}</Typography>
+                </>
+              }
+            </div>
           </>
         }
       </Paper>

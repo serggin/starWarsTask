@@ -24,6 +24,9 @@ const useStyles = makeStyles(theme => ({
   itemTextNotSelected: {
     textDecoration: 'underline',
   },
+  comment: {
+    padding: 5,
+  }
 }));
 
 const ListItemButton = props => <ListItem button {...props} />;
@@ -54,7 +57,9 @@ const FilmList = ({titles, selectFilm}) => {
               </List>
             </div>
             <Divider />
-            <Typography>Select episode</Typography>
+            <div className={classes.comment}>
+              <Typography align='center'>Select episode</Typography>
+            </div>
           </>
         }
       </Paper>
