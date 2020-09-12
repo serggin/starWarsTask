@@ -32,18 +32,6 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const ReviewInput0 = ({label, type="text", multiline=false, value, onChange, helper, error, rows=1}) => {
-  const classes = useStyles();
-
-  return (
-    <FormControl className={classes.input}>
-      <FormLabel>{label}</FormLabel>
-      <FormHelperText className={classes.loginInputHelper}>{helper}</FormHelperText>
-      <OutlinedInput fullWidth type={type} value={value} onChange={onChange} error={error} required rows={rows}/>
-    </FormControl>
-  );
-}
-
 const ReviewInput = ({label, onChange, className, type="text", multiline=false, rows=1, errorText=""}) => {
   const errorProps = !!errorText ? {error: true, helperText: errorText} : {};
   const props = {label, onChange, className, type, multiline, rows, required:true, variant:"outlined", ...errorProps};
@@ -52,8 +40,7 @@ const ReviewInput = ({label, onChange, className, type="text", multiline=false, 
   );
 }
 
-
-const FilmReview = ({filmId, pending}) => {
+const FilmReview = ({filmId, reviewMode, submitReview, clearReviewMode}) => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [review, setReview] = useState('');
@@ -61,6 +48,8 @@ const FilmReview = ({filmId, pending}) => {
   const [emailError, setEmailError] = useState('');
   //const [reviewError, setReviewError] = useState('');
   const classes = useStyles();
+
+  console.log('FilmReview reviewMode=', reviewMode);
 
   const onUsernameChange = (value) => {
     const trimmedValue = value.trim();
@@ -82,7 +71,7 @@ const FilmReview = ({filmId, pending}) => {
 
   const validateEmail = () => {
     var pattern = new RegExp(/^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i);
-    console.log('validateEmail()', email, pattern.test(email));
+    //console.log('validateEmail()', email, pattern.test(email));
     return pattern.test(email);
   }
 
@@ -107,55 +96,78 @@ const FilmReview = ({filmId, pending}) => {
 
   const onSubmit = () => {
     if (validate()) {
-      alert('Valid');
-    } else {
-      alert('Errors');
+      submitReview({filmId, username, email, review});
     }
   }
   const onCancel = () => {
+    clearReviewMode();
   }
 
   return (
     <div className={classes.root}>
       <Typography variant="h4">Review</Typography>
-      <div className={classes.wrapper}>
-        <ReviewInput
-          label="Username"
-          className={classes.input}
-          onChange={e => onUsernameChange(e.target.value)}
-        />
-        <ReviewInput
-          label="Email"
-          type="email"
-          className={classes.input}
-          onChange={e => onEmailChange(e.target.value)}
-          errorText={emailError}
-        />
-      </div>
-      <ReviewInput
-        label="Review"
-        multiline={true}
-        rows={5}
-        onChange={e => onReviewChange(e.target.value)}
-      />
-      <div className={classes.buttonWrapper}>
-        <Button
-          variant="contained"
-          color="primary"
-          className={classes.button}
-          onClick={onSubmit}
-          disabled={!username || !email || !!emailError || !(review.trim())}
-        >
-          Submit
-        </Button>
-        <Button
-          variant="contained"
-          className={classes.button}
-          onClick={onCancel}
-        >
-          Cancel
-        </Button>
-      </div>
+      {reviewMode === 'edit' &&
+        <>
+          <div className={classes.wrapper}>
+            <ReviewInput
+              label="Username"
+              className={classes.input}
+              onChange={e => onUsernameChange(e.target.value)}
+            />
+            <ReviewInput
+              label="Email"
+              type="email"
+              className={classes.input}
+              onChange={e => onEmailChange(e.target.value)}
+              errorText={emailError}
+            />
+          </div>
+          <ReviewInput
+            label="Review"
+            multiline={true}
+            rows={5}
+            onChange={e => onReviewChange(e.target.value)}
+          />
+          <div className={classes.buttonWrapper}>
+            <Button
+              variant="contained"
+              color="primary"
+              className={classes.button}
+              onClick={onSubmit}
+              disabled={!username || !email || !!emailError || !(review.trim())}
+            >
+              Submit
+            </Button>
+            <Button
+              variant="contained"
+              className={classes.button}
+              onClick={onCancel}
+            >
+              Cancel
+            </Button>
+          </div>
+        </>
+      }
+      {reviewMode === 'pending' &&
+        <Typography variant="body1">Review is beeing sent ...</Typography>
+      }
+      {reviewMode === 'sent' &&
+        <>
+          <Typography variant="h5">Review has been sent successfully</Typography>
+          <Typography variant="body1">Username: {username}</Typography>
+          <Typography variant="body1">Email: {email}</Typography>
+          <Typography variant="body1">{review}</Typography>
+          <div className={classes.buttonWrapper}>
+            <Button
+              variant="contained"
+              className={classes.button}
+              onClick={onCancel}
+            >
+              Close
+            </Button>
+          </div>
+        </>
+      }
     </div>
   );
 }

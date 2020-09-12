@@ -31,17 +31,15 @@ const ErrorImport = (text) => (() =>
 */
 
 const FilmDetail = ({filmId, loading, title, opening_crawl, reviewMode, setReviewMode, clearReviewMode}) => {
-  const [FilmReview, setFilmReview] = useState(null);
+  const [FilmReviewContainer, setFilmReviewContainer] = useState(null);
   const classes = useStyles();
-  //console.log('FilmDetail props=', props);
   const showReviewForm = () => {
     setReviewMode('edit');
-    if (!FilmReview) {
+    if (!FilmReviewContainer) {
       const imported = lazy(() =>
-        import('./FilmReview')
-        //.catch(error => ErrorImport(error))
+        import('../containers/FilmReviewContainer')
       );
-      setFilmReview(imported);
+      setFilmReviewContainer(imported);
     }
   }
   return (
@@ -61,9 +59,9 @@ const FilmDetail = ({filmId, loading, title, opening_crawl, reviewMode, setRevie
                       Make a Review
                     </Button>
                   }
-                  {reviewMode && FilmReview &&
+                  {reviewMode && FilmReviewContainer &&
                   <Suspense fallback={<Typography variant="body1">Loading ...</Typography>}>
-                    <FilmReview />
+                    <FilmReviewContainer />
                   </Suspense>
                   }
                 </>
