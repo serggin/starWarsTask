@@ -31,7 +31,7 @@ const useStyles = makeStyles(theme => ({
 
 const ListItemButton = props => <ListItem button {...props} />;
 
-const FilmList = ({titles, disabled, selectFilm}) => {
+const FilmList = ({titles, disabled, error, selectFilm}) => {
   const [keySelected, setKeySelected] = useState(undefined);
   const classes = useStyles();
   const keys = Object.keys(titles);
@@ -62,6 +62,7 @@ const FilmList = ({titles, disabled, selectFilm}) => {
             </div>
           </>
         }
+        {error && <Typography color='error'>{error}</Typography>}
       </Paper>
     </div>
   );
@@ -71,9 +72,11 @@ FilmList.propTypes = {
   titles: PropTypes.object.isRequired,
   disabled: PropTypes.bool,
   selectFilm: PropTypes.func.isRequired,
+  error: PropTypes.string,
 };
 FilmList.defaultProps = {
   disabled: false,
+  error: '',
 };
 
 export default FilmList;

@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Paper, Typography, Button, FormControl, FormLabel, FormHelperText, OutlinedInput, TextField } from '@material-ui/core';
+import { Typography, Button, TextField } from '@material-ui/core';
 
 
 const useStyles = makeStyles(theme => ({
@@ -12,7 +12,6 @@ const useStyles = makeStyles(theme => ({
     marginBottom: 10,
   },
   input: {
-    //marginBottom: 10,
     width: "48%"
   },
   wrapper: {
@@ -28,7 +27,6 @@ const useStyles = makeStyles(theme => ({
     width: "100%",
     justifyContent: "space-evenly",
     marginTop: 10,
-
   },
 }));
 
@@ -44,17 +42,12 @@ const FilmReview = ({filmId, reviewMode, submitReview, clearReviewMode}) => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [review, setReview] = useState('');
-  //const [usernameError, setUsernameError] = useState('');
   const [emailError, setEmailError] = useState('');
-  //const [reviewError, setReviewError] = useState('');
   const classes = useStyles();
-
-  console.log('FilmReview reviewMode=', reviewMode);
 
   const onUsernameChange = (value) => {
     const trimmedValue = value.trim();
     setUsername(trimmedValue);
-    //setUsernameError('');
   }
 
   const onEmailChange = (value) => {
@@ -66,31 +59,20 @@ const FilmReview = ({filmId, reviewMode, submitReview, clearReviewMode}) => {
 
   const onReviewChange = (value) => {
     setReview(value);
-    //setReviewError('');
   }
 
   const validateEmail = () => {
     var pattern = new RegExp(/^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i);
-    //console.log('validateEmail()', email, pattern.test(email));
     return pattern.test(email);
   }
 
   const validate = () => {
-    //const requiredErrorText = 'field is required';
     const emailErrorText = 'email is not valid';
     let valid = true;
-    /*if (!username) {
-      setUsernameError(requiredErrorText);
-    }
-    if (!email) {
-      setEmailError(requiredErrorText);
-    } else*/ if (!validateEmail()) {
+    if (!validateEmail()) {
       setEmailError(emailErrorText);
       valid = false;
     }
-    /*if (!review.trim()) {
-      setReviewError(requiredErrorText);
-    }*/
     return valid;
   }
 

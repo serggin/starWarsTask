@@ -10,7 +10,7 @@ const fetchHelper = (url) => {
       } else {
         return response.text().then((text) => {
           console.error('error response=', text);
-          throw new Error(text);
+          throw new Error('Request failed');
         });
       }
     })
@@ -41,7 +41,6 @@ export const fetchFilm = (id) => {
 }
 
 export const sendReview = ({filmId, username, email, review}) => {
-  console.log('sendReview()', {filmId, username, email, review});
   return new Promise((resolve) => {
     setTimeout(resolve, delay);
   });

@@ -1,7 +1,7 @@
 import ActionTypes from './ActionTypes';
 
 const filmReducer = (state = {
-  error: false,
+  error: '',
   filmTitles: {},
   filmDetails: {},
   filmId: undefined,
@@ -9,7 +9,7 @@ const filmReducer = (state = {
 }, action) => {
   switch(action.type) {
     case ActionTypes.START_TITLES:
-      return {...state, error: false};
+      return {...state, error: ''};
     case ActionTypes.SET_ERROR:
       return {...state, error: action.error};
     case ActionTypes.SET_TITLES:

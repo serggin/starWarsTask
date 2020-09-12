@@ -9,7 +9,6 @@ const fetchFilm = (dispatch, getState) => {
   const films = getState().films;
   let filmId = films.filmId
   const filmDetails = films.filmDetails;
-  console.log('fetchFilm filmId, filmDetails=', filmId, filmDetails);
   if (filmId) {
     filmId = filmId.toString();
     if (filmDetails[filmId] && (filmDetails[filmId].loading || filmDetails[filmId].opening_crawl)) { // не делаем повторную загрузку

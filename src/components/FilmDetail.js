@@ -3,7 +3,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Paper, Typography, Button } from '@material-ui/core';
 
 import logo from '../assets/logo.jpeg';
-//import FilmReview from './FilmReview';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -14,8 +13,12 @@ const useStyles = makeStyles(theme => ({
   paper: {
     height: "100%",
   },
+  logoContainer: {
+    backgroundColor: "#09080E",
+    display: "flex",
+    justifyContent: "center",
+  },
   logo: {
-    width: "100%",
     height: 100,
   },
   content: {
@@ -45,7 +48,9 @@ const FilmDetail = ({filmId, loading, title, opening_crawl, reviewMode, setRevie
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>
-        <img className={classes.logo} src={logo} />
+        <div className={classes.logoContainer}>
+          <img className={classes.logo} src={logo} />
+        </div>
         {filmId &&
           <>
             <div className={classes.content}>
