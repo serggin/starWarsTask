@@ -31,7 +31,7 @@ const useStyles = makeStyles(theme => ({
 
 const ListItemButton = props => <ListItem button {...props} />;
 
-const FilmList = ({titles, selectFilm}) => {
+const FilmList = ({titles, disabled, selectFilm}) => {
   const [keySelected, setKeySelected] = useState(undefined);
   const classes = useStyles();
   const keys = Object.keys(titles);
@@ -48,7 +48,7 @@ const FilmList = ({titles, selectFilm}) => {
               <List>
                 {keys.map(key => (
                   <ListItemButton className={classes.titleButton} key={key} onClick={() => onSelect(key)}
-                  disabled={keySelected && keySelected === key}>
+                  disabled={disabled || keySelected && keySelected === key}>
                     <ListItemText
                       className={`${classes.itemText} ${(!keySelected || keySelected !== key) && classes.itemTextNotSelected}`}
                       primary={titles[key]} />
@@ -69,7 +69,11 @@ const FilmList = ({titles, selectFilm}) => {
 // {props.titles.keys().length
 FilmList.propTypes = {
   titles: PropTypes.object.isRequired,
+  disabled: PropTypes.bool,
   selectFilm: PropTypes.func.isRequired,
+};
+FilmList.defaultProps = {
+  disabled: false,
 };
 
 export default FilmList;

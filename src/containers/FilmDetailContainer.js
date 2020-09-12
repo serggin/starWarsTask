@@ -19,7 +19,7 @@ const fetchFilm = (dispatch, getState) => {
     ActionCreators.fetchFilmDetailsStarted(dispatch)(filmId);
     fetchFilmApi(filmId)
       .then(filmResponse => {
-        const details = {episode_id: filmResponse.episode_id, opening_crawl: filmResponse.opening_crawl};
+        const details = {opening_crawl: filmResponse.opening_crawl};
         ActionCreators.fetchFilmDetailsComplete(dispatch)(filmId, details);
       })
       .catch(error => {
@@ -30,11 +30,11 @@ const fetchFilm = (dispatch, getState) => {
   return;
 }
 
-const FilmDetailWrapper = ({filmId, filmTitles, filmDetails, fetchFilm}) => {
+const FilmDetailWrapper = ({filmId, filmTitles, filmDetails, reviewMode, fetchFilm, setReviewMode, clearReviewMode}) => {
   useEffect(() => {
     fetchFilm();
   }, [filmId]);
-  let props = {filmId};
+  let props = {filmId, reviewMode, setReviewMode, clearReviewMode};
   if (filmId) {
     const details = filmDetails[filmId];
     if (details) {
@@ -42,7 +42,7 @@ const FilmDetailWrapper = ({filmId, filmTitles, filmDetails, fetchFilm}) => {
         ...props,
         ...(details.loading ?
           {loading: true} :
-          {title: filmTitles[filmId], episode_id: details.episode_id, opening_crawl: details.opening_crawl})
+          {title: filmTitles[filmId], opening_crawl: details.opening_crawl})
       };
     }
   }
@@ -55,9 +55,12 @@ const mapStateToProps = (state) => ({
   filmId: state.films.filmId,
   filmTitles: state.films.filmTitles,
   filmDetails: state.films.filmDetails,
+  reviewMode: state.films.reviewMode,
 });
 const mapDispatchToProps = (dispatch) => ({
   fetchFilm: () => dispatch(fetchFilm),
+  setReviewMode: dispatch(ActionCreators.setReviewMode),
+  clearReviewMode: dispatch(ActionCreators.clearReviewMode),
 });
 
 const FilmDetailContainer = connect(mapStateToProps, mapDispatchToProps)(FilmDetailWrapper);

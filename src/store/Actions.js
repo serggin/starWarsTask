@@ -25,7 +25,13 @@ const ActionCreators = {
     id,
     details,
   }),
-
+  setReviewMode: (mode) => ({
+    type: ActionTypes.SET_REVIEW_MODE,
+    mode,
+  }),
+  clearReviewMode: () => ({
+    type: ActionTypes.CLEAR_REVIEW_MODE,
+  }),
 };
 
 const ActionTriggers = {
@@ -35,6 +41,8 @@ const ActionTriggers = {
   setCurrentFilm: (dispatch) => (id) => dispatch(ActionCreators.setCurrentFilm(id)),
   fetchFilmDetailsStarted: (dispatch) => (id) => dispatch(ActionCreators.fetchFilmDetailsStarted(id)),
   fetchFilmDetailsComplete: (dispatch) => (id, details) => dispatch(ActionCreators.fetchFilmDetailsComplete(id, details)),
+  setReviewMode: (dispatch) => (mode) => dispatch(ActionCreators.setReviewMode(mode)),
+  clearReviewMode: (dispatch) => () => dispatch(ActionCreators.clearReviewMode()),
 }
 
 export default ActionTriggers;

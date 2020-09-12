@@ -1,8 +1,9 @@
-import React from 'react';
+import React, {lazy, Suspense, useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Paper, Typography } from '@material-ui/core';
+import { Paper, Typography, Button } from '@material-ui/core';
 
 import logo from '../assets/logo.jpeg';
+//import FilmReview from './FilmReview';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -23,9 +24,26 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const FilmDetail = ({filmId, loading, title, opening_crawl}) => {
+/*
+const ErrorImport = (text) => (() =>
+  <Typography color='error'>{text}</Typography>
+);
+*/
+
+const FilmDetail = ({filmId, loading, title, opening_crawl, reviewMode, setReviewMode, clearReviewMode}) => {
+  const [FilmReview, setFilmReview] = useState(null);
   const classes = useStyles();
   //console.log('FilmDetail props=', props);
+  const showReviewForm = () => {
+    setReviewMode('edit');
+    if (!FilmReview) {
+      const imported = lazy(() =>
+        import('./FilmReview')
+        //.catch(error => ErrorImport(error))
+      );
+      setFilmReview(imported);
+    }
+  }
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>
@@ -38,6 +56,16 @@ const FilmDetail = ({filmId, loading, title, opening_crawl}) => {
                 <>
                   <Typography variant="h4">{title}</Typography>
                   <Typography variant="body1">{opening_crawl}</Typography>
+                  {!reviewMode &&
+                    <Button variant="contained" color="primary" onClick={() => showReviewForm()}>
+                      Make a Review
+                    </Button>
+                  }
+                  {reviewMode && FilmReview &&
+                  <Suspense fallback={<Typography variant="body1">Loading ...</Typography>}>
+                    <FilmReview />
+                  </Suspense>
+                  }
                 </>
               }
             </div>

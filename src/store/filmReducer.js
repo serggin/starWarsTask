@@ -5,6 +5,7 @@ const filmReducer = (state = {
   filmTitles: {},
   filmDetails: {},
   filmId: undefined,
+  reviewMode: false,
 }, action) => {
   switch(action.type) {
     case ActionTypes.START_TITLES:
@@ -19,6 +20,10 @@ const filmReducer = (state = {
       return {...state, error: false, filmDetails: {...state.filmDetails, [action.id.toString()]: {loading: true}}};
     case ActionTypes.SET_FILM_DETAILS:
       return {...state, filmDetails: {...state.filmDetails, [action.id.toString()]: {...action.details}}};
+    case ActionTypes.SET_REVIEW_MODE:
+      return {...state, reviewMode: action.mode};
+    case ActionTypes.CLEAR_REVIEW_MODE:
+      return {...state, reviewMode: false};
     default:
       return state;
   }

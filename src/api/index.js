@@ -27,7 +27,7 @@ export const fetchFilms = () => {
   return fetchHelper(url);
 }
 
-const delay= 2000;
+const delay= 1000;
 
 export const fetchFilm = (id) => {
   const url = baseURL + `${id}/`;
